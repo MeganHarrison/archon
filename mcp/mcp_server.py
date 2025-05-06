@@ -9,8 +9,6 @@ import uuid
 import sys
 import os
 
-from fastapi.middleware.cors import CORSMiddleware
-
 # Load environment variables from .env file
 load_dotenv()
 
@@ -120,25 +118,8 @@ async def run_agent(thread_id: str, user_input: str) -> str:
         raise
 
 
-# Add CORS middleware to allow cross-origin requests
-mcp.app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Adjust this to your frontend domain in production
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-from fastapi import FastAPI
-import uvicorn
-
-app = FastAPI()
-
-# Mount the MCP server as a FastAPI route
-app.mount("/mcp", mcp.app)
-
 if __name__ == "__main__":
-    write_to_log("Starting MCP server as HTTP service")
+    write_to_log("Starting MCP server")
     
-    # Run MCP server as HTTP on port 8100
-    uvicorn.run(app, host="0.0.0.0", port=8100)
+    # Run MCP server
+    mcp.run(transport='stdio')
