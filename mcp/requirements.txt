@@ -1,3 +1,5 @@
+fastapi==0.95.2
+uvicorn==0.22.0
 mcp==1.2.1
 python-dotenv==1.0.1
 requests==2.32.3
